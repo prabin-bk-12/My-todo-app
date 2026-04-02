@@ -3,31 +3,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('task-input');
     const taskList = document.getElementById('task-list');
 
-    // 1. LOAD SAVED TASKS WHEN APP OPENS
+    // Display Current Date
+    const options = { weekday: 'long', month: 'long', day: 'numeric' };
+    document.getElementById('date-display').innerText = new Date().toLocaleDateString(undefined, options);
+
     loadTasks();
 
     function updateStats() {
         const total = document.querySelectorAll('li').length;
-        const completed = document.querySelectorAll('input[type="checkbox"]:checked').length;
+        const done = document.querySelectorAll('input[type="checkbox"]:checked').length;
         document.getElementById('total-count').innerText = total;
-        document.getElementById('comp-count').innerText = completed;
-        document.getElementById('incomp-count').innerText = total - completed;
-        saveTasks(); // 2. SAVE EVERY TIME SOMETHING CHANGES
+        document.getElementById('comp-count').innerText = done;
+        saveTasks();
     }
 
     addBtn.addEventListener('click', () => {
-        const taskValue = input.value.trim();
-        if (taskValue === "") return;
-        createTaskElement(taskValue, false);
+        const val = input.value.trim();
+        if (val === "") return;
+        createTask(val, false);
         input.value = "";
         updateStats();
+        // Native mobile feel: vibrate slightly
+        if (navigator.vibrate) navigator.vibrate(10);
     });
 
-    function createTaskElement(text, isCompleted) {
+    function createTask(text, isDone) {
         const li = document.createElement('li');
         li.innerHTML = `
-            <input type="checkbox" ${isCompleted ? 'checked' : ''}>
-            <span class="task-text ${isCompleted ? 'completed-text' : ''}">${text}</span>
+            <input type="checkbox" ${isDone ? 'checked' : ''}>
+            <span class="task-text ${isDone ? 'completed-text' : ''}">${text}</span>
             <span class="edit-btn">✏️</span>
         `;
 
@@ -38,33 +42,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
         li.querySelector('.edit-btn').addEventListener('click', () => {
             const span = li.querySelector('.task-text');
-            const newValue = prompt("Edit task:", span.innerText);
-            if (newValue) { span.innerText = newValue; saveTasks(); }
+            const newText = prompt("Edit Task:", span.innerText);
+            if (newText) { span.innerText = newText; saveTasks(); }
         });
 
-        taskList.appendChild(li);
+        taskList.prepend(li); // Newest tasks at the top
     }
 
-    // 3. THE "SAVE" LOGIC
     function saveTasks() {
-        const tasks = [];
-        document.querySelectorAll('li').forEach(li => {
-            tasks.push({
-                text: li.querySelector('.task-text').innerText,
-                completed: li.querySelector('input').checked
-            });
-        });
-        localStorage.setItem('myTasks', JSON.stringify(tasks));
+        const tasks = Array.from(document.querySelectorAll('li')).map(li => ({
+            text: li.querySelector('.task-text').innerText,
+            done: li.querySelector('input').checked
+        }));
+        localStorage.setItem('proTodoTasks', JSON.stringify(tasks));
     }
 
-    // 4. THE "LOAD" LOGIC
     function loadTasks() {
-        const saved = JSON.parse(localStorage.getItem('myTasks')) || [];
-        saved.forEach(task => createTaskElement(task.text, task.completed));
+        const saved = JSON.parse(localStorage.getItem('proTodoTasks')) || [];
+        saved.forEach(t => createTask(t.text, t.done));
         updateStats();
     }
 
-    document.getElementById('delete-selected').addEventListener('click', () => {
+    document.getElementById('clear-btn').addEventListener('click', () => {
         document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => cb.parentElement.remove());
         updateStats();
     });
