@@ -19,13 +19,7 @@ body {
     text-align: center;
 }
 
-body { 
-    background: #b3e5fc; 
-    display: flex; 
-    justify-content: center; 
-    padding: 50px; 
-    font-family: 'Segoe UI', sans-serif; 
-}
+
 
 /* Container must stack items vertically */
 .app-card {
