@@ -1,3 +1,24 @@
+/* 1. Reset margins and set the background for the whole screen */
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #87CEEB; /* Your light blue color */
+    font-family: Arial, sans-serif;
+}
+
+/* 2. Make the container wider for mobile screens */
+.container {
+    width: 90%; 
+    max-width: 400px;
+    margin-top: 20px;
+    text-align: center;
+}
+
 body { 
     background: #b3e5fc; 
     display: flex; 
@@ -84,3 +105,4 @@ li:last-child {
 .btn-red { background: #e53935; }
 
 .stats { margin-top: 20px; display: flex; justify-content: space-between; font-size: 14px; color: #555; }
+
