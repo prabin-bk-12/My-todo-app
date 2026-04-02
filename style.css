@@ -1,86 +1,73 @@
-body { 
-    background: #b3e5fc; 
-    display: flex; 
-    justify-content: center; 
-    padding: 50px; 
-    font-family: 'Segoe UI', sans-serif; 
+:root {
+    --primary: #1b8a7c;
+    --bg: #e0f2f1;
+    --text: #263238;
 }
 
-/* Container must stack items vertically */
-.app-card {
+body { 
+    background: var(--bg); 
+    margin: 0; 
+    font-family: -apple-system, system-ui, sans-serif;
+    display: flex;
+    justify-content: center;
+}
+
+.app-shell { 
+    width: 100%; 
+    max-width: 400px; 
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center; /* This keeps them both centered in the card */
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-/* 1. The Input Box (Wider) */
-#task-input {
-    width: 250px;           /* Wider than the button */
-    padding: 8px;
-    margin-bottom: 10px;    /* Space between input and button */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
+header h1 { margin: 0; color: var(--text); font-size: 28px; }
+header p { margin: 5px 0 20px; color: #666; font-size: 14px; }
+
+/* Input Section */
+.input-container { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+
+#task-input { 
+    width: 100%; padding: 15px; border-radius: 12px;
+    border: 1px solid #ccc; font-size: 16px; outline: none;
 }
 
-/* 2. The Green Button (Smaller/Narrower) */
-#add-btn {
-    width: 180px;           /* Narrower than the input box above it */
-    background-color: #1b8a7c; 
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 15px;    /* The rounded pill shape from your photo */
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 16px;
+#add-btn { 
+    width: 200px; background: var(--primary); color: white; 
+    padding: 12px; border-radius: 25px; border: none;
+    font-weight: bold; font-size: 16px; cursor: pointer;
+    box-shadow: 0 4px 10px rgba(27, 138, 124, 0.3);
 }
 
-#add-btn:hover {
-    background-color: #156d62;
+/* List Area */
+.list-wrapper { flex: 1; overflow-y: auto; margin-top: 20px; }
+
+ul { list-style: none; padding: 0; margin: 0; }
+
+li { 
+    background: white; margin-bottom: 10px; padding: 15px;
+    border-radius: 15px; display: flex; align-items: center;
+    justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
+.task-text { flex: 1; text-align: center; font-size: 17px; }
+.completed-text { text-decoration: line-through; color: #bbb; }
 
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 20px 0;
-    border: 1.5px solid #e0e0e0; /* The outer border */
-    border-radius: 8px;         /* Rounded corners for the whole list */
-    background: white;
-    overflow: hidden;           /* Keeps the top and bottom items rounded */
+/* Checkbox & Edit */
+input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--primary); }
+.edit-btn { font-size: 20px; cursor: pointer; }
+
+/* Footer */
+footer { padding: 20px 0; text-align: center; }
+
+.stats-pill { 
+    background: white; padding: 8px 20px; border-radius: 20px;
+    display: inline-flex; gap: 15px; margin-bottom: 15px;
+    font-size: 13px; color: #555;
 }
 
-
-li {
-    display: flex;
-    align-items: center;
-    padding: 12px 15px;
-    border-bottom: 1.5px solid #e0e0e0; /* The divider lines */
-    gap: 12px;                          /* Space between checkbox and text */
+#clear-btn { 
+    display: block; width: 100%; background: none; border: none;
+    color: #e53935; font-weight: bold; cursor: pointer;
 }
-
-/* Removes the divider line from the very last task */
-li:last-child {
-    border-bottom: none;
-}
-
-/* Aligns text to the left as seen in the photo */
-.task-text {
-    flex: 1;
-    text-align: left; 
-    font-size: 18px;
-    font-weight: 500;
-    color: #333;
-}
-
-
-.edit-btn { cursor: pointer; opacity: 0.6; transition: 0.2s; }
-.edit-btn:hover { opacity: 1; transform: scale(1.2); }
-
-.actions { display: flex; gap: 10px; margin-top: 20px; }
-.actions button { flex: 1; padding: 12px; color: white; border: none; border-radius: 10px; cursor: pointer; }
-.btn-blue { background: #1565c0; }
-.btn-red { background: #e53935; }
-
-.stats { margin-top: 20px; display: flex; justify-content: space-between; font-size: 14px; color: #555; }
